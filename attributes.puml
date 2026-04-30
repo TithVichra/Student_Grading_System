@@ -1,0 +1,135 @@
+@startuml Student_Grading_System
+scale 2048 width
+skinparam classAttributeIconSize 0
+skinparam classFontStyle Bold
+skinparam classBackgroundColor #F9F9F9
+skinparam classBorderColor #555555
+skinparam arrowColor #333333
+skinparam packageBackgroundColor #EEF4FF
+skinparam packageBorderColor #7090C0
+
+left to right direction
+
+package "util" #EEFFF0 {
+    class GradeManager {
+        - grades : Map<String, Grade>
+        --
+        - createKey(studentId, subjectCode, examName) : String
+        + addGrade(grade : Grade) : void
+        + getGradesByStudent(studentId : int) : ArrayList<Grade>
+        + calculateAverageScore(studentId : int) : double
+        + getAllGrades() : Map<String, Grade>
+    }
+
+    class GradeUtils {
+        + calculateGrade(score : double) : String
+    }
+
+    GradeManager -down-> GradeUtils : uses to calculate grade letter
+}
+
+package "model" #EEF4FF {
+
+    class Student {
+        - totalStudents : int
+        - nextStudentId : int
+        - studentId : int
+        - name : String
+        - gender : Gender
+        - className : String
+        - subjectCodes : ArrayList<String>
+        --
+        + getTotalStudents() : int
+        + getStudentId() : int
+        + getName() : String
+        + getGender() : Gender
+        + getClassName() : String
+        + getSubjectCodes() : ArrayList<String>
+        + setName(name : String) : void
+        + setGender(gender : Gender) : void
+        + setClassName(className : String) : void
+        + addSubjectCode(code : String) : void
+        + removeSubjectCode(code : String) : void
+        + calculateAverageScore() : double
+    }
+
+    class Subject {
+        - subjectCode : String
+        - subjectName : String
+        - teacherName : String
+        - exams : ArrayList<Exam>
+        --
+        + getSubjectCode() : String
+        + getSubjectName() : String
+        + getTeacherName() : String
+        + getExams() : ArrayList<Exam>
+        + setSubjectCode(code : String) : void
+        + setSubjectName(name : String) : void
+        + setTeacherName(name : String) : void
+        + addExam(exam : Exam) : void
+        + removeExam(exam : Exam) : void
+    }
+
+    class Exam {
+        - examName : String
+        - examDate : String
+        --
+        + getExamName() : String
+        + getExamDate() : String
+        + setExamName(name : String) : void
+        + setExamDate(date : String) : void
+    }
+
+    class Grade {
+        - student : Student
+        - subject : Subject
+        - exam : Exam
+        - score : double
+        - gradeLetter : String
+        --
+        + getStudent() : Student
+        + getSubject() : Subject
+        + getExam() : Exam
+        + getScore() : double
+        + getGradeLetter() : String
+        + setStudent(s : Student) : void
+        + setSubject(s : Subject) : void
+        + setExam(e : Exam) : void
+        + setScore(score : double) : void
+        + setGradeLetter(letter : String) : void
+    }
+
+    enum Gender {
+        MALE
+        FEMALE
+        OTHER
+    }
+
+    Grade -right-> Student : belongs to a student
+    Grade -right-> Subject : recorded for a subject
+    Grade -down-> Exam : recorded for an exam
+    Subject -down-> Exam : has one or more exams
+    Student -down-> Gender : has a gender
+}
+
+package "main" #FFF8EE {
+    class Main {
+        - students : Map<Integer, Student>
+        - subjects : Map<String, Subject>
+        --
+        + main(args : String[]) : void
+        - addStudent(s : Student) : void
+        - addSubject(s : Subject) : void
+        - addGrade(g : Grade) : void
+    }
+}
+
+' Cross-package
+Main -down-> Student : creates students
+Main -down-> Subject : creates subjects
+Main -down-> Grade : creates grades
+Main -down-> GradeManager : manages all grades
+GradeManager -right-> Grade : stores and retrieves grades
+Student -up-> GradeManager : requests average score
+
+@enduml

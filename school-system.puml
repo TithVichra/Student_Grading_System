@@ -1,0 +1,45 @@
+@startuml Student_Grading_System
+
+skinparam classAttributeIconSize 0
+skinparam classFontStyle Bold
+skinparam classBackgroundColor #F9F9F9
+skinparam classBorderColor #555555
+skinparam arrowColor #333333
+skinparam packageBackgroundColor #EEF4FF
+skinparam packageBorderColor #7090C0
+
+left to right direction
+
+package "util" #EEFFF0 {
+    class GradeManager
+    class GradeUtils
+    GradeManager -down-> GradeUtils : uses to calculate grade letter
+}
+
+package "model" #EEF4FF {
+    class Grade
+    class Student
+    class Subject
+    class Exam
+    enum Gender
+
+    Grade -right-> Student : belongs to a student
+    Grade -right-> Subject : recorded for a subject
+    Grade -down-> Exam : recorded for an exam
+    Subject -down-> Exam : has one or more exams
+    Student -down-> Gender : has a gender
+}
+
+package "main" #FFF8EE {
+    class Main
+}
+
+' Cross-package
+Main -down-> Student : creates students
+Main -down-> Subject : creates subjects
+Main -down-> Grade : creates grades
+Main -down-> GradeManager : manages all grades
+GradeManager -right-> Grade : stores and retrieves grades
+Student -up-> GradeManager : requests average score
+
+@enduml
