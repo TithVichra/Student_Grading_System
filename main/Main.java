@@ -1,5 +1,5 @@
 package main;
-
+// Main class to demonstrate the functionality of the student grading system
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
