@@ -7,6 +7,7 @@ import model.*;
 import util.GradeManager;
 import util.GradeUtils;
 
+// Main class to demonstrate the functionality of the student grading system
 public class Main {
     private static Map<Integer, Student> students = new HashMap<>();
     private static Map<String, Subject> subjects = new HashMap<>();
