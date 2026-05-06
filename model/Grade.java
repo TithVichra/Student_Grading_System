@@ -1,5 +1,7 @@
 package model;
 
+import util.GradeUtils;
+
 public class Grade {
     private Student student;
     private Subject subject;
@@ -7,12 +9,15 @@ public class Grade {
     private double score;
     private String gradeLetter;
 
+    public Grade(Student student, Subject subject, Exam exam, double score) {
+        setStudent(student);
+        setSubject(subject);
+        setExam(exam);
+        setScore(score);
+    }
+
     public Grade(Student student, Subject subject, Exam exam, double score, String gradeLetter) {
-        this.student = student;
-        this.subject = subject;
-        this.exam = exam;
-        this.score = score;
-        this.gradeLetter = gradeLetter;
+        this(student, subject, exam, score);
     }
 
     // Getters
@@ -64,17 +69,18 @@ public class Grade {
     public void setScore(double score) {
         if (score >= 0 && score <= 100) {
             this.score = score;
+            updateGradeLetter();
         } else {
             System.out.println("Invalid score! Score must be between 0 and 100.");
         }
     }
 
     public void setGradeLetter(String gradeLetter) {
-        if (gradeLetter != null && !gradeLetter.isEmpty()) {
-            this.gradeLetter = gradeLetter;
-        } else {
-            System.out.println("Invalid grade letter!");
-        }
+        System.out.println("Grade letter is automatically determined from score and cannot be set directly.");
+    }
+
+    private void updateGradeLetter() {
+        this.gradeLetter = GradeUtils.calculateGrade(this.score);
     }
 
     @Override

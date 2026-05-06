@@ -10,17 +10,29 @@ public class GradeManager {
 
     // Composite key: studentId-subjectCode-examName
     private static String createKey(int studentId, String subjectCode, String examName) {
-        return studentId + "-" + subjectCode + "-" + examName;
+        String normalizedSubject = subjectCode == null ? "" : subjectCode.trim().toUpperCase();
+        String normalizedExam = examName == null ? "" : examName.trim().toLowerCase();
+        return studentId + "-" + normalizedSubject + "-" + normalizedExam;
     }
 
-    public static void addGrade(Grade grade) {
-        if (grade == null) return;
-        String key = createKey(grade.getStudent().getStudentId(),
-                               grade.getSubject().getSubjectCode(),
-                               grade.getExam().getExamName());
-        if (!grades.containsKey(key)) {
-            grades.put(key, grade);
+    public static boolean addGrade(Grade grade) {
+        if (grade == null) return false;
+        int studentId = grade.getStudent() == null ? 0 : grade.getStudent().getStudentId();
+        String subjectCode = grade.getSubject() == null ? null : grade.getSubject().getSubjectCode();
+        String examName = grade.getExam() == null ? null : grade.getExam().getExamName();
+
+        String key = createKey(studentId, subjectCode, examName);
+        if (grades.containsKey(key)) {
+            System.out.println("Duplicate grade record detected for student " + studentId +
+                               ", subject " + subjectCode + ", exam " + examName + ".");
+            return false;
         }
+
+        grades.put(key, grade);
+        if (grade.getStudent() != null) {
+            grade.getStudent().addGradeRecord(grade);
+        }
+        return true;
     }
 
     public static ArrayList<Grade> getGradesByStudent(int studentId) {

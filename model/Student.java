@@ -12,6 +12,7 @@ public class Student {
     private Gender gender;
     private String className;
     private ArrayList<String> subjectCodes;
+    private ArrayList<Grade> grades;
 
     public Student(String name, Gender gender, String className) {
         this.studentId = nextStudentId++;
@@ -19,6 +20,7 @@ public class Student {
         setGender(gender);
         setClassName(className);
         this.subjectCodes = new ArrayList<>();
+        this.grades = new ArrayList<>();
         totalStudents++;
     }
 
@@ -44,6 +46,39 @@ public class Student {
 
     public ArrayList<String> getSubjectCodes() {
         return new ArrayList<>(subjectCodes);
+    }
+
+    public ArrayList<Grade> getGrades() {
+        return new ArrayList<>(grades);
+    }
+
+    public boolean hasGradeFor(String subjectCode, String examName) {
+        if (subjectCode == null || examName == null) {
+            return false;
+        }
+        for (Grade grade : grades) {
+            if (grade.getSubject() != null && grade.getExam() != null &&
+                grade.getSubject().getSubjectCode().equals(subjectCode) &&
+                grade.getExam().getExamName().equalsIgnoreCase(examName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void addGradeRecord(Grade grade) {
+        if (grade == null) return;
+        String subjectCode = grade.getSubject() == null ? null : grade.getSubject().getSubjectCode();
+        String examName = grade.getExam() == null ? null : grade.getExam().getExamName();
+        if (!hasGradeFor(subjectCode, examName)) {
+            grades.add(grade);
+        }
+    }
+
+    public void removeGradeRecord(Grade grade) {
+        if (grade != null) {
+            grades.remove(grade);
+        }
     }
 
     public void setStudentId(int studentId) {
