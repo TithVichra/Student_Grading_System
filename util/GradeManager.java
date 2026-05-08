@@ -30,7 +30,7 @@ public class GradeManager {
 
         grades.put(key, grade);
         if (grade.getStudent() != null) {
-            grade.getStudent().addGradeRecord(grade);
+            grade.getStudent().addGrade(grade);
         }
         return true;
     }
@@ -58,4 +58,5 @@ public class GradeManager {
     public static Map<String, Grade> getAllGrades() {
         return new HashMap<>(grades);
     }
+   
 }

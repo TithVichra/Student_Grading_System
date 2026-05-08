@@ -1,26 +1,32 @@
 package model;
 
 import util.GradeUtils;
+import util.Displayable;
+public class Grade implements Displayable {
 
-public class Grade {
     private Student student;
     private Subject subject;
     private Exam exam;
+
     private double score;
     private String gradeLetter;
 
-    public Grade(Student student, Subject subject, Exam exam, double score) {
+    public Grade(Student student, Subject subject,
+                 Exam exam, double score) {
+
         setStudent(student);
         setSubject(subject);
         setExam(exam);
         setScore(score);
+
+        // automatically connect grade to student
+        if (student != null) {
+            student.addGrade(this);
+        }
     }
 
-    public Grade(Student student, Subject subject, Exam exam, double score, String gradeLetter) {
-        this(student, subject, exam, score);
-    }
+    // ================= GETTERS =================
 
-    // Getters
     public Student getStudent() {
         return student;
     }
@@ -41,54 +47,59 @@ public class Grade {
         return gradeLetter;
     }
 
-    // Setters with validation
+    // ================= SETTERS =================
+
     public void setStudent(Student student) {
         if (student != null) {
             this.student = student;
-        } else {
-            System.out.println("Invalid student! Student cannot be null.");
         }
     }
 
     public void setSubject(Subject subject) {
         if (subject != null) {
             this.subject = subject;
-        } else {
-            System.out.println("Invalid subject! Subject cannot be null.");
         }
     }
 
     public void setExam(Exam exam) {
         if (exam != null) {
             this.exam = exam;
-        } else {
-            System.out.println("Invalid exam! Exam cannot be null.");
         }
     }
 
     public void setScore(double score) {
+
         if (score >= 0 && score <= 100) {
+
             this.score = score;
-            updateGradeLetter();
+
+            // AUTO CALCULATE GRADE
+            this.gradeLetter =
+                    GradeUtils.calculateGrade(score);
+
         } else {
-            System.out.println("Invalid score! Score must be between 0 and 100.");
+            System.out.println("Invalid score!");
         }
-    }
-
-    public void setGradeLetter(String gradeLetter) {
-        System.out.println("Grade letter is automatically determined from score and cannot be set directly.");
-    }
-
-    private void updateGradeLetter() {
-        this.gradeLetter = GradeUtils.calculateGrade(this.score);
     }
 
     @Override
     public String toString() {
-        return "Grade [student=" + student +
-               ", subject=" + subject +
-               ", exam=" + exam +
-               ", score=" + score +
-               ", grade=" + gradeLetter + "]";
+
+        return "Grade [student=" + student.getName()
+                + ", subject=" + subject.getSubjectName()
+                + ", exam=" + exam.getExamName()
+                + ", score=" + score
+                + ", grade=" + gradeLetter + "]";
+    }
+    @Override
+    public void displayInfo() {
+
+        System.out.println(
+                "Student: " + student.getName()
+                + " | Subject: " + subject.getSubjectName()
+                + " | Exam: " + exam.getExamName()
+                + " | Score: " + score
+                + " | Grade: " + gradeLetter
+        );
     }
 }

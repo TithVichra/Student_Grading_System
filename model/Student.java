@@ -2,8 +2,10 @@ package model;
 
 import java.util.ArrayList;
 import util.GradeManager;
+import util.Displayable;
 
-public class Student {
+public class Student implements Displayable {
+
     private static int totalStudents = 0;
     private static int nextStudentId = 1;
 
@@ -11,18 +13,27 @@ public class Student {
     private String name;
     private Gender gender;
     private String className;
-    private ArrayList<String> subjectCodes;
+
+    // UPDATED
+    private ArrayList<Subject> subjects;
+
     private ArrayList<Grade> grades;
 
     public Student(String name, Gender gender, String className) {
+
         this.studentId = nextStudentId++;
+
         setName(name);
         setGender(gender);
         setClassName(className);
-        this.subjectCodes = new ArrayList<>();
-        this.grades = new ArrayList<>();
+
+        subjects = new ArrayList<>();
+        grades = new ArrayList<>();
+
         totalStudents++;
     }
+
+    // ================= GETTERS =================
 
     public static int getTotalStudents() {
         return totalStudents;
@@ -44,57 +55,20 @@ public class Student {
         return className;
     }
 
-    public ArrayList<String> getSubjectCodes() {
-        return new ArrayList<>(subjectCodes);
+    public ArrayList<Subject> getSubjects() {
+        return new ArrayList<>(subjects);
     }
 
     public ArrayList<Grade> getGrades() {
         return new ArrayList<>(grades);
     }
 
-    public boolean hasGradeFor(String subjectCode, String examName) {
-        if (subjectCode == null || examName == null) {
-            return false;
-        }
-        for (Grade grade : grades) {
-            if (grade.getSubject() != null && grade.getExam() != null &&
-                grade.getSubject().getSubjectCode().equals(subjectCode) &&
-                grade.getExam().getExamName().equalsIgnoreCase(examName)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public void addGradeRecord(Grade grade) {
-        if (grade == null) return;
-        String subjectCode = grade.getSubject() == null ? null : grade.getSubject().getSubjectCode();
-        String examName = grade.getExam() == null ? null : grade.getExam().getExamName();
-        if (!hasGradeFor(subjectCode, examName)) {
-            grades.add(grade);
-        }
-    }
-
-    public void removeGradeRecord(Grade grade) {
-        if (grade != null) {
-            grades.remove(grade);
-        }
-    }
-
-    public void setStudentId(int studentId) {
-        if (studentId > 0) {
-            this.studentId = studentId;
-        } else {
-            System.out.println("Invalid student ID! Using default value 0.");
-            this.studentId = 0;
-        }
-    }
+    // ================= SETTERS =================
 
     public void setName(String name) {
         if (name != null && !name.trim().isEmpty()) {
             this.name = name;
         } else {
-            System.out.println("Invalid name! Using default 'Unknown'.");
             this.name = "Unknown";
         }
     }
@@ -103,8 +77,7 @@ public class Student {
         if (gender != null) {
             this.gender = gender;
         } else {
-            System.out.println("Invalid gender! Using default FEMALE.");
-            this.gender = Gender.FEMALE;
+            this.gender = Gender.OTHER;
         }
     }
 
@@ -112,36 +85,57 @@ public class Student {
         if (className != null && !className.trim().isEmpty()) {
             this.className = className;
         } else {
-            System.out.println("Invalid class name! Using default 'N/A'.");
             this.className = "N/A";
         }
     }
 
-    // Methods to manage subject codes
-    public void addSubjectCode(String subjectCode) {
-        if (subjectCode != null && !subjectCode.isEmpty() && !subjectCodes.contains(subjectCode)) {
-            subjectCodes.add(subjectCode);
-        } else if (subjectCode != null) {
-            System.out.println("Subject code already exists for this student.");
+    // ================= SUBJECT METHODS =================
+
+    public void addSubject(Subject subject) {
+
+        if (subject != null && !subjects.contains(subject)) {
+            subjects.add(subject);
         }
     }
 
-    public void removeSubjectCode(String subjectCode) {
-        if (subjectCode != null) {
-            subjectCodes.remove(subjectCode);
+    public void removeSubject(Subject subject) {
+        subjects.remove(subject);
+    }
+
+    // ================= GRADE METHODS =================
+
+    public void addGrade(Grade grade) {
+
+        if (grade != null && !grades.contains(grade)) {
+            grades.add(grade);
         }
     }
 
-    // Calculate average score for this student using GradeManager
+    public void removeGrade(Grade grade) {
+        grades.remove(grade);
+    }
+
+    // ================= BUSINESS LOGIC =================
+
     public double calculateAverageScore() {
-        return GradeManager.calculateAverageScore(this.studentId);
+        return GradeManager.calculateAverageScore(studentId);
     }
 
     @Override
     public String toString() {
         return "Student [id=" + studentId +
-               ", name=" + name +
-               ", gender=" + gender +
-               ", class=" + className + "]";
+                ", name=" + name +
+                ", gender=" + gender +
+                ", class=" + className + "]";
+    }
+    @Override
+    public void displayInfo() {
+
+        System.out.println(
+                "Student ID: " + studentId
+                + " | Name: " + name
+                + " | Gender: " + gender
+                + " | Class: " + className
+        );
     }
 }

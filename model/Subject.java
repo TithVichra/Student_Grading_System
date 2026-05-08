@@ -1,8 +1,9 @@
 package model;
 
 import java.util.ArrayList;
+import util.Displayable;
 
-public class Subject {
+public class Subject implements Displayable {
     private String subjectCode;
     private String subjectName;
     private String teacherName;
@@ -79,5 +80,14 @@ public class Subject {
         return "Subject [subjectCode=" + subjectCode +
                ", subjectName=" + subjectName +
                ", teacherName=" + teacherName + "]";
+    }
+    @Override
+    public void displayInfo() {
+
+        System.out.println(
+                "Subject Code: " + subjectCode
+                + " | Subject Name: " + subjectName
+                + " | Teacher: " + teacherName
+        );
     }
 }
