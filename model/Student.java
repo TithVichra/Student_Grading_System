@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import util.GradeManager;
 import util.Displayable;
 
 public class Student implements Displayable {
@@ -14,9 +13,7 @@ public class Student implements Displayable {
     private Gender gender;
     private String className;
 
-    // UPDATED
-    private ArrayList<Subject> subjects;
-
+    // ONLY keep grades (no subjects to avoid duplication)
     private ArrayList<Grade> grades;
 
     public Student(String name, Gender gender, String className) {
@@ -27,7 +24,6 @@ public class Student implements Displayable {
         setGender(gender);
         setClassName(className);
 
-        subjects = new ArrayList<>();
         grades = new ArrayList<>();
 
         totalStudents++;
@@ -53,10 +49,6 @@ public class Student implements Displayable {
 
     public String getClassName() {
         return className;
-    }
-
-    public ArrayList<Subject> getSubjects() {
-        return new ArrayList<>(subjects);
     }
 
     public ArrayList<Grade> getGrades() {
@@ -89,37 +81,38 @@ public class Student implements Displayable {
         }
     }
 
-    // ================= SUBJECT METHODS =================
-
-    public void addSubject(Subject subject) {
-
-        if (subject != null && !subjects.contains(subject)) {
-            subjects.add(subject);
-        }
-    }
-
-    public void removeSubject(Subject subject) {
-        subjects.remove(subject);
-    }
-
     // ================= GRADE METHODS =================
 
     public void addGrade(Grade grade) {
-
         if (grade != null && !grades.contains(grade)) {
             grades.add(grade);
         }
     }
 
     public void removeGrade(Grade grade) {
-        grades.remove(grade);
+        if (grade != null) {
+            grades.remove(grade);
+        }
     }
 
     // ================= BUSINESS LOGIC =================
 
     public double calculateAverageScore() {
-        return GradeManager.calculateAverageScore(studentId);
+
+        if (grades.isEmpty()) {
+            return 0;
+        }
+
+        double total = 0;
+
+        for (Grade g : grades) {
+            total += g.getScore();
+        }
+
+        return total / grades.size();
     }
+
+    // ================= DISPLAY =================
 
     @Override
     public String toString() {
@@ -128,14 +121,14 @@ public class Student implements Displayable {
                 ", gender=" + gender +
                 ", class=" + className + "]";
     }
+
     @Override
     public void displayInfo() {
-
         System.out.println(
-                "Student ID: " + studentId
-                + " | Name: " + name
-                + " | Gender: " + gender
-                + " | Class: " + className
+                "Student ID: " + studentId +
+                " | Name: " + name +
+                " | Gender: " + gender +
+                " | Class: " + className
         );
     }
 }
