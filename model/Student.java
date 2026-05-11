@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import util.Displayable;
+import util.GradeManager;
 
 public class Student implements Displayable {
 
@@ -13,8 +14,7 @@ public class Student implements Displayable {
     private Gender gender;
     private String className;
 
-    // ONLY keep grades (no subjects to avoid duplication)
-    private ArrayList<Grade> grades;
+    // Removed local grades list - grades are now managed centrally by GradeManager
 
     public Student(String name, Gender gender, String className) {
 
@@ -23,8 +23,6 @@ public class Student implements Displayable {
         setName(name);
         setGender(gender);
         setClassName(className);
-
-        grades = new ArrayList<>();
 
         totalStudents++;
     }
@@ -52,7 +50,7 @@ public class Student implements Displayable {
     }
 
     public ArrayList<Grade> getGrades() {
-        return new ArrayList<>(grades);
+        return GradeManager.getGradesByStudent(this.studentId);
     }
 
     // ================= SETTERS =================
@@ -81,35 +79,23 @@ public class Student implements Displayable {
         }
     }
 
-    // ================= GRADE METHODS =================
-
-    public void addGrade(Grade grade) {
-        if (grade != null && !grades.contains(grade)) {
-            grades.add(grade);
-        }
-    }
-
-    public void removeGrade(Grade grade) {
-        if (grade != null) {
-            grades.remove(grade);
-        }
-    }
-
     // ================= BUSINESS LOGIC =================
 
     public double calculateAverageScore() {
 
-        if (grades.isEmpty()) {
+        ArrayList<Grade> studentGrades = getGrades();
+
+        if (studentGrades.isEmpty()) {
             return 0;
         }
 
         double total = 0;
 
-        for (Grade g : grades) {
+        for (Grade g : studentGrades) {
             total += g.getScore();
         }
 
-        return total / grades.size();
+        return total / studentGrades.size();
     }
 
     // ================= DISPLAY =================

@@ -1,7 +1,7 @@
 package model;
 
-import util.GradeUtils;
 import util.Displayable;
+import util.GradeUtils;
 public class Grade implements Displayable {
 
     private Student student;
@@ -12,17 +12,16 @@ public class Grade implements Displayable {
     private String gradeLetter;
 
     public Grade(Student student, Subject subject,
-                 Exam exam, double score) {
+          Exam exam, double score) {
 
         setStudent(student);
         setSubject(subject);
         setExam(exam);
         setScore(score);
 
-        // automatically connect grade to student
-        if (student != null) {
-            student.addGrade(this);
-        }
+        // Grade objects are created here, but they should be added to the system
+        // through GradeManager.addGrade() so duplicate detection and student
+        // synchronization happen in one place.
     }
 
     // ================= GETTERS =================

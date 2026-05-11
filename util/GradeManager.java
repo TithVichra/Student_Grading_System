@@ -3,7 +3,10 @@ package util;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import model.Exam;
 import model.Grade;
+import model.Student;
+import model.Subject;
 
 public class GradeManager {
 
@@ -56,12 +59,19 @@ public class GradeManager {
 
         grades.put(key, grade);
 
-        // sync with student object
-        if (grade.getStudent() != null) {
-            grade.getStudent().addGrade(grade);
-        }
-
         return true;
+    }
+
+    // =========================
+    // CREATE AND ADD GRADE (COMBINED)
+    // =========================
+    public static Grade createGrade(Student student, Subject subject, Exam exam, double score) {
+        Grade grade = new Grade(student, subject, exam, score);
+        if (addGrade(grade)) {
+            return grade;
+        } else {
+            return null; // Duplicate detected
+        }
     }
 
     // =========================

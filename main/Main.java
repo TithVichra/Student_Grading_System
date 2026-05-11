@@ -42,13 +42,15 @@ public class Main {
         // GRADE CREATION (ONLY via GradeManager)
         // =========================
 
-        Grade g1 = new Grade(s1, math, quiz, 85);
-        Grade g2 = new Grade(s1, math, midterm, 90);
-        Grade g3 = new Grade(s2, math, finalExam, 70);
+        Grade g1 = GradeManager.createGrade(s1, math, quiz, 85);
+        Grade g2 = GradeManager.createGrade(s1, math, midterm, 90);
+        Grade g3 = GradeManager.createGrade(s2, math, finalExam, 70);
 
-        GradeManager.addGrade(g1);
-        GradeManager.addGrade(g2);
-        GradeManager.addGrade(g3);
+        // Test duplicate
+        Grade duplicate = GradeManager.createGrade(s1, math, quiz, 95);
+        if (duplicate == null) {
+            System.out.println("Duplicate grade creation prevented!");
+        }
 
         // =========================
         // DISPLAY STUDENTS
@@ -80,7 +82,7 @@ public class Main {
         // SEARCH GRADES BY STUDENT
         // =========================
 
-        System.out.println("\n=== SEARCH STUDENT ===");
+        System.out.println("\n=== SEARCH STUDENT by ID " + s1.getStudentId() + " ===");
         for (Grade g : GradeManager.getGradesByStudent(s1.getStudentId())) {
             g.displayInfo();
         }
