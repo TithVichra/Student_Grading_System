@@ -2,7 +2,8 @@ package model;
 
 import java.util.ArrayList;
 import util.Displayable;
-import util.GradeManager;
+import util.GradeService;
+
 
 public class Student implements Displayable {
 
@@ -50,7 +51,8 @@ public class Student implements Displayable {
     }
 
     public ArrayList<Grade> getGrades() {
-        return GradeManager.getGradesByStudent(this.studentId);
+        GradeService service = new GradeService();
+        return service.getGradesByStudent(this.studentId);
     }
 
     // ================= SETTERS =================
@@ -79,24 +81,6 @@ public class Student implements Displayable {
         }
     }
 
-    // ================= BUSINESS LOGIC =================
-
-    public double calculateAverageScore() {
-
-        ArrayList<Grade> studentGrades = getGrades();
-
-        if (studentGrades.isEmpty()) {
-            return 0;
-        }
-
-        double total = 0;
-
-        for (Grade g : studentGrades) {
-            total += g.getScore();
-        }
-
-        return total / studentGrades.size();
-    }
 
     // ================= DISPLAY =================
 
