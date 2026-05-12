@@ -3,6 +3,10 @@ package main;
 import java.util.ArrayList;
 import model.*;
 import util.GradeManager;
+import util.Averagable;
+import util.GradeService;
+import util.Searchable;
+import model.Exam;
 
 public class Main {
 
@@ -42,15 +46,19 @@ public class Main {
         // GRADE CREATION (ONLY via GradeManager)
         // =========================
 
-        Grade g1 = GradeManager.createGrade(s1, math, quiz, 85);
-        Grade g2 = GradeManager.createGrade(s1, math, midterm, 90);
-        Grade g3 = GradeManager.createGrade(s2, math, finalExam, 70);
+        GradeManager.createGrade(s1, math, quiz, 85);
+        GradeManager.createGrade(s1, math, midterm, 90);
+        GradeManager.createGrade(s2, math, finalExam, 70);
 
         // Test duplicate
         Grade duplicate = GradeManager.createGrade(s1, math, quiz, 95);
         if (duplicate == null) {
             System.out.println("Duplicate grade creation prevented!");
         }
+        GradeService service = new GradeService();
+        Searchable searchService = service;
+        Averagable averageService = service;
+
 
         // =========================
         // DISPLAY STUDENTS
@@ -83,7 +91,7 @@ public class Main {
         // =========================
 
         System.out.println("\n=== SEARCH STUDENT by ID " + s1.getStudentId() + " ===");
-        for (Grade g : GradeManager.getGradesByStudent(s1.getStudentId())) {
+        for (Grade g : searchService.getGradesByStudent(s1.getStudentId())) {
             g.displayInfo();
         }
 
@@ -91,7 +99,8 @@ public class Main {
         // AVERAGE SCORE
         // =========================
 
-        System.out.println("\nAverage Score: " + s1.calculateAverageScore());
+        System.out.println("\nAverage Score for " + s1.getName() + ": "
+        + averageService.calculateAverageScore(s1.getStudentId()));
 
         // =========================
         // TOTAL STUDENTS
