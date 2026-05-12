@@ -84,9 +84,9 @@ public class Grade implements Displayable {
     @Override
     public String toString() {
 
-        return "Grade [student=" + student.getName()
-                + ", subject=" + subject.getSubjectName()
-                + ", exam=" + exam.getExamName()
+        return "Grade [student=" + (student != null ? student.getName() : "null")
+                + ", subject=" + (subject != null ? subject.getSubjectName() : "null")
+                + ", exam=" + (exam != null ? exam.getExamName() : "null")
                 + ", score=" + score
                 + ", grade=" + gradeLetter + "]";
     }
@@ -94,9 +94,9 @@ public class Grade implements Displayable {
     public void displayInfo() {
 
         System.out.println(
-                "Student: " + student.getName()
-                + " | Subject: " + subject.getSubjectName()
-                + " | Exam: " + exam.getExamName()
+                "Student: " + (student != null ? student.getName() : "null")
+                + " | Subject: " + (subject != null ? subject.getSubjectName() : "null")
+                + " | Exam: " + (exam != null ? exam.getExamName() : "null")
                 + " | Score: " + score
                 + " | Grade: " + gradeLetter
         );
