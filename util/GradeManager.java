@@ -3,13 +3,14 @@ package util;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import model.Exam;
 import model.Grade;
+import model.Exam;
 import model.Student;
 import model.Subject;
 
-public class GradeManager {
+    public class GradeManager {
 
+    // make grades a shared static map (still shared across all instances)
     private static Map<String, Grade> grades = new HashMap<>();
 
     // =========================
@@ -75,41 +76,32 @@ public class GradeManager {
     }
 
     // =========================
-    // GET GRADES BY STUDENT
+    // GET GRADES BY STUDENT //
     // =========================
+
     public static ArrayList<Grade> getGradesByStudent(int studentId) {
-
         ArrayList<Grade> result = new ArrayList<>();
-
-        for (Grade grade : grades.values()) {
-
+        for (Grade grade : new ArrayList<>(grades.values())) {
             if (grade.getStudent() != null &&
                 grade.getStudent().getStudentId() == studentId) {
-
                 result.add(grade);
             }
         }
-
         return result;
     }
 
     // =========================
     // AVERAGE SCORE
     // =========================
+    
     public static double calculateAverageScore(int studentId) {
-
         ArrayList<Grade> studentGrades = getGradesByStudent(studentId);
-
         if (studentGrades.isEmpty()) return 0.0;
-
         double sum = 0;
-
-        for (Grade g : studentGrades) {
-            sum += g.getScore();
-        }
-
+        for (Grade g : studentGrades) sum += g.getScore();
         return sum / studentGrades.size();
     }
+
 
     // =========================
     // GET ALL GRADES (FIXED)
