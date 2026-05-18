@@ -51,18 +51,24 @@ public class Grade implements Displayable {
     public void setStudent(Student student) {
         if (student != null) {
             this.student = student;
+        } else {
+            System.out.println("Invalid student!");
         }
     }
 
     public void setSubject(Subject subject) {
         if (subject != null) {
             this.subject = subject;
+        } else {
+            System.out.println("Invalid subject!");
         }
     }
 
     public void setExam(Exam exam) {
         if (exam != null) {
             this.exam = exam;
+        } else {
+            System.out.println("Invalid exam!");
         }
     }
 

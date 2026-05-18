@@ -6,14 +6,14 @@ import util.Displayable;
 public class Subject implements Displayable {
     private String subjectCode;
     private String subjectName;
-    private String teacherName;
+    private Teacher teacher;
     private ArrayList<Exam> exams;
 
     // constructor → uses setters for validation
-    public Subject(String subjectCode, String subjectName, String teacherName) {
+    public Subject(String subjectCode, String subjectName, Teacher teacher) {
         setSubjectCode(subjectCode);
         setSubjectName(subjectName);
-        setTeacherName(teacherName);
+        setTeacher(teacher);
         this.exams = new ArrayList<>();
     }
 
@@ -26,8 +26,12 @@ public class Subject implements Displayable {
         return subjectName;
     }
 
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
     public String getTeacherName() {
-        return teacherName;
+        return teacher != null ? teacher.getName() : "Unknown";
     }
 
     public ArrayList<Exam> getExams() {
@@ -52,11 +56,11 @@ public class Subject implements Displayable {
         }
     }
 
-    public void setTeacherName(String teacherName) {
-        if (teacherName != null && !teacherName.isEmpty()) {
-            this.teacherName = teacherName;
+    public void setTeacher(Teacher teacher) {
+        if (teacher != null) {
+            this.teacher = teacher;
         } else {
-            System.out.println("Invalid teacher name!");
+            System.out.println("Invalid teacher!");
         }
     }
 
@@ -79,15 +83,15 @@ public class Subject implements Displayable {
     public String toString() {
         return "Subject [subjectCode=" + subjectCode +
                ", subjectName=" + subjectName +
-               ", teacherName=" + teacherName + "]";
+               ", teacherName=" + getTeacherName() + "]";
     }
+
     @Override
     public void displayInfo() {
-
         System.out.println(
                 "Subject Code: " + subjectCode
                 + " | Subject Name: " + subjectName
-                + " | Teacher: " + teacherName
+                + " | Teacher: " + getTeacherName()
         );
     }
 }

@@ -2,11 +2,10 @@ package main;
 
 import java.util.ArrayList;
 import model.*;
-import util.GradeManager;
 import util.Averagable;
+import util.GradeManager;
 import util.GradeService;
 import util.Searchable;
-import model.Exam;
 
 public class Main {
 
@@ -24,11 +23,18 @@ public class Main {
         students.add(s2);
 
         // =========================
+        // TEACHERS
+        // =========================
+
+        Teacher mathTeacher = new Teacher("Mr. Dara", Gender.MALE, "dara@school.edu", "Mathematics");
+        Teacher javaTeacher = new Teacher("Mr. John", Gender.MALE, "john@school.edu", "Computer Science");
+
+        // =========================
         // SUBJECTS
         // =========================
 
-        Subject math = new Subject("M101", "Mathematics", "Mr. Dara");
-        Subject java = new Subject("J102", "Java Programming", "Mr. John");
+        Subject math = new Subject("M101", "Mathematics", mathTeacher);
+        Subject java = new Subject("J102", "Java Programming", javaTeacher);
 
         // =========================
         // EXAMS
@@ -50,14 +56,19 @@ public class Main {
         GradeManager.createGrade(s1, math, midterm, 90);
         GradeManager.createGrade(s2, math, finalExam, 70);
 
-        // Test duplicate
+        // Test duplicate grade prevention
         Grade duplicate = GradeManager.createGrade(s1, math, quiz, 95);
         if (duplicate == null) {
             System.out.println("Duplicate grade creation prevented!");
         }
-        GradeService service = new GradeService();
-        Searchable searchService = service;
-        Averagable averageService = service;
+
+        // =========================
+        // SERVICE INITIALIZATION
+        // =========================
+
+        GradeService gradeService = new GradeService();
+        Searchable searchService = gradeService;
+        Averagable averageService = gradeService;
 
 
         // =========================
