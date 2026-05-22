@@ -3,12 +3,12 @@ package util;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import model.Grade;
 import model.Exam;
+import model.Grade;
 import model.Student;
 import model.Subject;
 
-    public class GradeManager {
+public class GradeManager implements Displayable {
 
     // make grades a shared static map (still shared across all instances)
     private static Map<String, Grade> grades = new HashMap<>();
@@ -108,5 +108,17 @@ import model.Subject;
     // =========================
     public static ArrayList<Grade> getAllGrades() {
         return new ArrayList<>(grades.values());
+    }
+
+    @Override
+    public void displayInfo() {
+        System.out.println("GradeManager: " + grades.size() + " grade(s) stored.");
+        if (grades.isEmpty()) {
+            System.out.println("No grades available.");
+            return;
+        }
+        for (Grade grade : grades.values()) {
+            grade.displayInfo();
+        }
     }
 }

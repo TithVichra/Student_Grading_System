@@ -1,7 +1,11 @@
 package model;
-public class Exam {
+
+import util.Displayable;
+
+public class Exam implements Displayable {
     private String examName;   // exam name
     private String examDate;   // exam date
+    private Subject subject;   // associated subject (may be null until set)
 
     // constructor (uses setters for validation)
     public Exam(String examName, String examDate) {
@@ -16,6 +20,14 @@ public class Exam {
 
     public String getExamDate() {
         return examDate;
+    }
+
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
     // setter methods with validation
@@ -38,5 +50,13 @@ public class Exam {
     @Override
     public String toString() {
         return "Exam [examName=" + examName + ", examDate=" + examDate + "]";
+    }
+
+    @Override
+    public void displayInfo() {
+        System.out.println(
+                "Exam: " + examName +
+                " | Date: " + examDate
+        );
     }
 }

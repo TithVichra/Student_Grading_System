@@ -44,9 +44,18 @@ public class Main {
         Exam midterm = new Exam("Midterm", "20-May-2026");
         Exam finalExam = new Exam("Final", "10-June-2026");
 
+        // associate exams with their subject before adding
+        quiz.setSubject(math);
+        midterm.setSubject(math);
+        finalExam.setSubject(math);
+
         math.addExam(quiz);
         math.addExam(midterm);
         math.addExam(finalExam);
+
+        Exam javaQuiz = new Exam("Java Quiz", "15-May-2026");
+        javaQuiz.setSubject(java);
+        java.addExam(javaQuiz);
 
         // =========================
         // GRADE CREATION (ONLY via GradeManager)
@@ -55,6 +64,8 @@ public class Main {
         GradeManager.createGrade(s1, math, quiz, 85);
         GradeManager.createGrade(s1, math, midterm, 90);
         GradeManager.createGrade(s2, math, finalExam, 70);
+
+        GradeManager.createGrade(s1, java, javaQuiz, 90);
 
         // Test duplicate grade prevention
         Grade duplicate = GradeManager.createGrade(s1, math, quiz, 95);

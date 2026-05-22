@@ -1,14 +1,31 @@
 package model;
 
-public class Person {
+import util.Displayable;
+
+public class Person implements Displayable {
     protected int id;
     protected String name;
     protected Gender gender;
 
     public Person(int id, String name, Gender gender) {
-        this.id = id;
-        setName(name);
+        setId(id);
+        this.name = cleanText(name, "Unknown Name");
         setGender(gender);
+    }
+
+    private String cleanText(String value, String defaultValue) {
+        if (value == null || value.trim().isEmpty()) {
+            return defaultValue;
+        }
+        return value.trim();
+    }
+
+    private void setId(int id) {
+        if (id > 0) {
+            this.id = id;
+        } else {
+            this.id = 0;
+        }
     }
 
     public int getId() {
@@ -25,22 +42,22 @@ public class Person {
 
     public void setName(String name) {
         if (name != null && !name.trim().isEmpty()) {
-            this.name = name;
-        } else {
-            this.name = "Unknown";
+            this.name = name.trim();
         }
     }
 
     public void setGender(Gender gender) {
-        if (gender != null) {
-            this.gender = gender;
-        } else {
+        if (gender == null) {
             this.gender = Gender.OTHER;
+        } else {
+            this.gender = gender;
         }
     }
 
     @Override
-    public String toString() {
-        return "Person [id=" + id + ", name=" + name + ", gender=" + gender + "]";
+    public void displayInfo() {
+        System.out.println("ID: " + id);
+        System.out.println("Name: " + name);
+        System.out.println("Gender: " + gender);
     }
 }

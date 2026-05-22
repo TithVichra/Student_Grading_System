@@ -1,8 +1,10 @@
 package model;
 
 import util.Displayable;
+import util.Gradable;
 import util.GradeUtils;
-public class Grade implements Displayable {
+
+public class Grade implements Displayable, Gradable {
 
     private Student student;
     private Subject subject;
@@ -77,14 +79,16 @@ public class Grade implements Displayable {
         if (score >= 0 && score <= 100) {
 
             this.score = score;
-
-            // AUTO CALCULATE GRADE
-            this.gradeLetter =
-                    GradeUtils.calculateGrade(score);
+            this.gradeLetter = calculateGrade();
 
         } else {
             System.out.println("Invalid score!");
         }
+    }
+
+    @Override
+    public String calculateGrade() {
+        return GradeUtils.calculateGrade(score);
     }
 
     @Override

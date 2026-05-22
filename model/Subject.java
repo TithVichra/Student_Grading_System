@@ -8,16 +8,23 @@ public class Subject implements Displayable {
     private String subjectName;
     private Teacher teacher;
     private ArrayList<Exam> exams;
+    private static int subjectCount = 0;
 
-    // constructor → uses setters for validation
     public Subject(String subjectCode, String subjectName, Teacher teacher) {
-        setSubjectCode(subjectCode);
-        setSubjectName(subjectName);
-        setTeacher(teacher);
+        this.subjectCode = cleanText(subjectCode, "NO_CODE");
+        this.subjectName = cleanText(subjectName, "Unknown Subject");
+        this.teacher = teacher;
         this.exams = new ArrayList<>();
+        subjectCount++;
     }
 
-    // getter methods
+    private String cleanText(String value, String defaultValue) {
+        if (value == null || value.trim().isEmpty()) {
+            return defaultValue;
+        }
+        return value.trim();
+    }
+
     public String getSubjectCode() {
         return subjectCode;
     }
@@ -30,60 +37,60 @@ public class Subject implements Displayable {
         return teacher;
     }
 
-    public String getTeacherName() {
-        return teacher != null ? teacher.getName() : "Unknown";
-    }
-
-    public ArrayList<Exam> getExams() {
-        return exams;
-    }
-
-    // setter methods with validation
-
-    public void setSubjectCode(String subjectCode) {
-        if (subjectCode != null && !subjectCode.isEmpty()) {
-            this.subjectCode = subjectCode;
-        } else {
-            System.out.println("Invalid subject code!");
-        }
-    }
-
     public void setSubjectName(String subjectName) {
-        if (subjectName != null && !subjectName.isEmpty()) {
-            this.subjectName = subjectName;
-        } else {
-            System.out.println("Invalid subject name!");
+        if (subjectName != null && !subjectName.trim().isEmpty()) {
+            this.subjectName = subjectName.trim();
         }
     }
 
     public void setTeacher(Teacher teacher) {
         if (teacher != null) {
             this.teacher = teacher;
-        } else {
-            System.out.println("Invalid teacher!");
         }
     }
 
-    // Methods to manage exams
-    public void addExam(Exam exam) {
-        if (exam != null && !exams.contains(exam)) {
-            exams.add(exam);
-        } else if (exam != null) {
-            System.out.println("Exam already exists for this subject.");
+    public boolean addExam(Exam exam) {
+        if (exam == null) {
+            System.out.println("Cannot add a null exam.");
+            return false;
         }
+
+        if (exam.getSubject() != this) {
+            System.out.println("Cannot add exam " + exam.getExamName() + " to " + subjectName + ".");
+            System.out.println("This exam belongs to another subject.");
+            return false;
+        }
+
+        for (Exam existingExam : exams) {
+            if (existingExam.getExamName().equalsIgnoreCase(exam.getExamName())) {
+                System.out.println("Duplicate exam name in this subject: " + exam.getExamName());
+                return false;
+            }
+        }
+
+        exams.add(exam);
+        return true;
     }
 
-    public void removeExam(Exam exam) {
-        if (exam != null) {
-            exams.remove(exam);
-        }
+    public ArrayList<Exam> getExamsCopy() {
+        return new ArrayList<>(exams);
     }
 
-    @Override
-    public String toString() {
-        return "Subject [subjectCode=" + subjectCode +
-               ", subjectName=" + subjectName +
-               ", teacherName=" + getTeacherName() + "]";
+    public int getExamCount() {
+        return exams.size();
+    }
+
+    public void displayExamList() {
+        System.out.println("\nExams for " + subjectName + ":");
+
+        if (exams.isEmpty()) {
+            System.out.println("No exams yet.");
+            return;
+        }
+
+        for (Exam exam : exams) {
+            exam.displayInfo();
+        }
     }
 
     @Override
@@ -91,7 +98,12 @@ public class Subject implements Displayable {
         System.out.println(
                 "Subject Code: " + subjectCode
                 + " | Subject Name: " + subjectName
-                + " | Teacher: " + getTeacherName()
+                + " | Teacher: " + (teacher != null ? teacher.getName() : "No Teacher Assigned")
+                + " | Exams: " + exams.size()
         );
+    }
+
+    public static int getSubjectCount() {
+        return subjectCount;
     }
 }

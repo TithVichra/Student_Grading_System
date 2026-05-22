@@ -1,10 +1,9 @@
 package model;
 
 import java.util.ArrayList;
-import util.Displayable;
 import util.GradeService;
 
-public class Student extends Person implements Displayable {
+public class Student extends Person {
 
     private static int totalStudents = 0;
     private static int nextStudentId = 1;

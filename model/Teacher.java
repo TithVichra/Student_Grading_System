@@ -1,8 +1,6 @@
 package model;
 
-import util.Displayable;
-
-public class Teacher extends Person implements Displayable {
+public class Teacher extends Person {
 
     private static int nextTeacherId = 1;
     private String email;
