@@ -44,16 +44,8 @@ public class Student extends Person {
         }
     }
 
-    // ================= DISPLAY =================
-
-    @Override
-    public String toString() {
-        return "Student [id=" + id +
-                ", name=" + name +
-                ", gender=" + gender +
-                ", class=" + className + "]";
-    }
-
+    // ================= DISPLAY (OVERRIDING)=================
+    // Overide: student-specific displayInfo shows id, name, gender, + classname
     @Override
     public void displayInfo() {
         System.out.println(
@@ -62,5 +54,28 @@ public class Student extends Person {
                 " | Gender: " + gender +
                 " | Class: " + className
         );
+    }
+    //Overload: displayInfo with falg to show grades as well
+    public void displayInfo(boolean showGrades) {
+        displayInfo(); // Call the original displayInfo for basic info
+        if (showGrades) {
+            ArrayList<Grade> grades = getGrades();
+            if (grades.isEmpty()) {
+                System.out.println("No grades recorded.");
+            } else {
+                for (Grade g: grades) {
+                    System.out.print(" -> ");
+                    g.displayInfo(); // Call Grade's displayInfo to show grade details
+                }
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Student [id=" + id +
+                ", name=" + name +
+                ", gender=" + gender +
+                ", class=" + className + "]";
     }
 }

@@ -62,7 +62,30 @@ public class GradeManager implements Displayable {
 
         return true;
     }
-
+// OVERLOAD: build and add a grade using raw IDs/strings (useful for data import)
+// Searches for matching student/subject/exam in existing grades — simple lookup approach
+    
+public static boolean addGrade(int studentId, String subjectCode, String examName, double score) {
+        // Find matching student and subject+exam from stored grades
+        Student foundStudent = null;
+        Subject foundSubject = null;
+        Exam    foundExam    = null;
+ 
+        for (Grade g : grades.values()) {
+            if (g.getStudent() != null && g.getStudent().getStudentId() == studentId)
+                foundStudent = g.getStudent();
+            if (g.getSubject() != null && g.getSubject().getSubjectCode().equalsIgnoreCase(subjectCode))
+                foundSubject = g.getSubject();
+            if (g.getExam() != null && g.getExam().getExamName().equalsIgnoreCase(examName))
+                foundExam = g.getExam();
+        }
+ 
+        if (foundStudent == null || foundSubject == null || foundExam == null) {
+            System.out.println("addGrade(int,String,String,double): could not resolve references.");
+            return false;
+        }
+        return addGrade(new Grade(foundStudent, foundSubject, foundExam, score));
+    }
     // =========================
     // CREATE AND ADD GRADE (COMBINED)
     // =========================
@@ -101,7 +124,11 @@ public class GradeManager implements Displayable {
         for (Grade g : studentGrades) sum += g.getScore();
         return sum / studentGrades.size();
     }
-
+    // OVERLOAD: average using a Student object directly (delegates to ID version)
+    public static double calculateAverageScore(Student student) {
+        if (student == null) return 0.0;
+        return calculateAverageScore(student.getStudentId());
+    }
 
     // =========================
     // GET ALL GRADES (FIXED)

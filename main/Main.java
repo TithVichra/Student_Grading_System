@@ -67,6 +67,9 @@ public class Main {
 
         GradeManager.createGrade(s1, java, javaQuiz, 90);
 
+        // Add grade using createGrade shortcut
+        GradeManager.createGrade(s2, math, midterm, 75);
+
         // Test duplicate grade prevention
         Grade duplicate = GradeManager.createGrade(s1, math, quiz, 95);
         if (duplicate == null) {
@@ -90,6 +93,13 @@ public class Main {
         for (Student s : students) {
             s.displayInfo();
         }
+        // =========================
+        // DISPLAY TEACHERS
+        // =========================
+        System.out.println("\n=== TEACHERS ===");
+        mathTeacher.displayInfo();
+        javaTeacher.displayInfo();
+
 
         // =========================
         // DISPLAY SUBJECTS
@@ -117,12 +127,56 @@ public class Main {
             g.displayInfo();
         }
 
+        //Search using Student object (overload)
+
+        System.out.println("\n=== SEARCH by Student object ===");
+        for (Grade g : gradeService.getGradesByStudent(s1)) {     // OVERLOAD
+            g.displayInfo();
+        } 
+
         // =========================
         // AVERAGE SCORE
         // =========================
+ 
+        System.out.println("\nAverage (by ID) for " + s1.getName() + ": "
+            + String.format("%.2f", averageService.calculateAverageScore(s1.getStudentId())));
+        //Overlaod
+        
+        System.out.println("\nAverage (Student object) for " + s1.getName() + ": "
+            + String.format("%.2f", gradeService.calculateAverageScore(s1)));
+        // =========================
+        // TEST OVERLOADED METHODS
+        // =========================
 
-        System.out.println("\nAverage Score for " + s1.getName() + ": "
-        + averageService.calculateAverageScore(s1.getStudentId()));
+        System.out.println("\n=== OVERLOADED METHODS TEST ===");
+
+        // Student overload
+        s1.displayInfo(true);
+
+        // Teacher overload
+        mathTeacher.displayInfo(true);
+
+        // Grade overloads
+        for (Grade g : GradeManager.getAllGrades()) {
+            g.displayInfo(false);
+            g.displayInfo(true, false);
+            break; // just show one example
+        }
+
+        // Average overload
+        System.out.println(
+            "\nAverage (Student object) for "
+            + s1.getName()
+            + ": "
+            + String.format("%.2f", gradeService.calculateAverageScore(s1))
+        );
+
+        // Subject overloads
+        math.addExam("Practice Quiz", "25-May-2026");
+        math.addExam("Extra Quiz", "30-May-2026", mathTeacher);
+
+        System.out.println("\nExam Count After Overloads: "
+                + math.getExamCount());
 
         // =========================
         // TOTAL STUDENTS
@@ -130,4 +184,5 @@ public class Main {
 
         System.out.println("\nTotal Students: " + Student.getTotalStudents());
     }
+    
 }

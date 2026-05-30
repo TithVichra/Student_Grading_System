@@ -92,16 +92,31 @@ public class Subject implements Displayable {
             exam.displayInfo();
         }
     }
-
-    @Override
-    public void displayInfo() {
-        System.out.println(
-                "Subject Code: " + subjectCode
-                + " | Subject Name: " + subjectName
-                + " | Teacher: " + (teacher != null ? teacher.getName() : "No Teacher Assigned")
-                + " | Exams: " + exams.size()
-        );
+    // OVERLOAD: create and add an exam by providing just name + date
+    public boolean addExam(String examName, String examDate) {
+        Exam exam = new Exam(examName, examDate);
+        exam.setSubject(this); // automatically link to this subject
+        return addExam(exam);  // delegate to the main addExam
     }
+    // OVERLOAD: create and add an exam by name, date, and a teacher note
+    // (teacher is stored in the exam name as a label for traceability)
+    public boolean addExam(String examName, String examDate, Teacher invigilator) {
+        // Append invigilator name to exam label so it is visible on display
+        String labeledName = (invigilator != null)
+                ? examName + " [" + invigilator.getName() + "]"
+                : examName;
+        return addExam(labeledName, examDate); 
+    }
+ 
+
+            @Override
+        public void displayInfo() {
+        System.out.println(
+        "Subject Code: " + subjectCode
+        + " | Subject Name: " + subjectName
+        + " | Teacher: " + (teacher != null ? teacher.getName() : "No Teacher Assigned")
+        );
+        }
 
     public static int getSubjectCount() {
         return subjectCount;

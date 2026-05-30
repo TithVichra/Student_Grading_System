@@ -90,7 +90,48 @@ public class Grade implements Displayable, Gradable {
     public String calculateGrade() {
         return GradeUtils.calculateGrade(score);
     }
+    // ================= DISPLAY (OVERRIDING + OVERLOADING) =================
+ 
+    // OVERRIDE: default displayInfo shows all fields
 
+    @Override
+    public void displayInfo() {
+        System.out.println(
+                "Student: " + (student != null ? student.getName() : "null")
+                + " | Subject: " + (subject != null ? subject.getSubjectName() : "null")
+                + " | Exam: " + (exam != null ? exam.getExamName() : "null")
+                + " | Score: " + score
+                + " | Grade: " + gradeLetter
+        );
+    }
+    // OVERLOAD: show or hide the student name column
+
+    public void displayInfo(boolean showStudent) {
+        if (showStudent) {
+            displayInfo(); // reuse the full version
+        } else {
+            // Hide student name — useful when listing grades under a specific student
+            System.out.println(
+                    "Subject: " + (subject != null ? subject.getSubjectName() : "null")
+                    + " | Exam: " + (exam != null ? exam.getExamName() : "null")
+                    + " | Score: " + score
+                    + " | Grade: " + gradeLetter
+            );
+        }
+    }
+    // OVERLOAD: individually control which columns appear
+
+    public void displayInfo(boolean showStudent, boolean showSubject) {
+        StringBuilder sb = new StringBuilder();
+        if (showStudent)
+            sb.append("Student: ").append(student != null ? student.getName() : "null").append(" | ");
+        if (showSubject)
+            sb.append("Subject: ").append(subject != null ? subject.getSubjectName() : "null").append(" | ");
+        sb.append("Exam: ").append(exam != null ? exam.getExamName() : "null")
+          .append(" | Score: ").append(score)
+          .append(" | Grade: ").append(gradeLetter);
+        System.out.println(sb.toString());
+    }   
     @Override
     public String toString() {
 
@@ -99,16 +140,5 @@ public class Grade implements Displayable, Gradable {
                 + ", exam=" + (exam != null ? exam.getExamName() : "null")
                 + ", score=" + score
                 + ", grade=" + gradeLetter + "]";
-    }
-    @Override
-    public void displayInfo() {
-
-        System.out.println(
-                "Student: " + (student != null ? student.getName() : "null")
-                + " | Subject: " + (subject != null ? subject.getSubjectName() : "null")
-                + " | Exam: " + (exam != null ? exam.getExamName() : "null")
-                + " | Score: " + score
-                + " | Grade: " + gradeLetter
-        );
     }
 }

@@ -39,13 +39,10 @@ public class Teacher extends Person {
             this.department = "General";
         }
     }
-
-    @Override
-    public String toString() {
-        return "Teacher [id=" + id + ", name=" + name + ", gender=" + gender +
-               ", email=" + email + ", department=" + department + "]";
-    }
-
+    // ================= DISPLAY (OVERRIDING) =================
+ 
+    // OVERRIDE: Teacher-specific displayInfo shows id, name, gender + email + department
+    
     @Override
     public void displayInfo() {
         System.out.println(
@@ -55,5 +52,21 @@ public class Teacher extends Person {
                 " | Email: " + email +
                 " | Department: " + department
         );
+    }   
+    // OVERLOAD: displayInfo with flag to show only contact info (email)
+    public void displayInfo(boolean showContact) {
+        if (showContact) {
+            System.out.println(
+                    "Teacher Name: " + name +
+                    " | Email: " + email
+            );
+        } else {
+            displayInfo(); // Call the original displayInfo for full details
+        }
+    }
+    @Override
+    public String toString() {
+        return "Teacher [id=" + id + ", name=" + name + ", gender=" + gender +
+               ", email=" + email + ", department=" + department + "]";
     }
 }
