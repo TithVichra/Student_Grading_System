@@ -3,11 +3,17 @@ package model;
 public class Teacher extends Person {
 
     private static int nextTeacherId = 1;
+
     private String email;
     private String department;
 
-    public Teacher(String name, Gender gender, String email, String department) {
+    public Teacher(String name,
+                   Gender gender,
+                   String email,
+                   String department) {
+
         super(nextTeacherId++, name, gender);
+
         setEmail(email);
         setDepartment(department);
     }
@@ -39,25 +45,29 @@ public class Teacher extends Person {
             this.department = "General";
         }
     }
-    // ================= DISPLAY (OVERRIDING) =================
- 
-    // OVERRIDE: Teacher-specific displayInfo shows id, name, gender + email + department
-    
-  
-    // OVERLOAD: displayInfo with flag to show only contact info (email)
+
+    // OVERLOAD
+
     public void displayInfo(boolean showContact) {
+
         if (showContact) {
+
             System.out.println(
-                    "Teacher Name: " + name +
-                    " | Email: " + email
+                "Teacher Name: " + name +
+                " | Email: " + email
             );
+
         } else {
-            displayInfo(); // Call the original displayInfo for full details
+
+            displayInfo();
         }
     }
+
     @Override
     public void displayInfo() {
-        super.displayInfo();
+
+        displayBasicInfo();
+
         System.out.println(
             " | Email: " + email +
             " | Department: " + department

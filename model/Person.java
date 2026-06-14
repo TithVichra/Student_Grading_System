@@ -2,7 +2,8 @@ package model;
 
 import util.Displayable;
 
-public class Person implements Displayable {
+public abstract class Person implements Displayable {
+
     protected int id;
     protected String name;
     protected Gender gender;
@@ -28,6 +29,8 @@ public class Person implements Displayable {
         }
     }
 
+    // ================= GETTERS =================
+
     public int getId() {
         return id;
     }
@@ -39,6 +42,8 @@ public class Person implements Displayable {
     public Gender getGender() {
         return gender;
     }
+
+    // ================= SETTERS =================
 
     public void setName(String name) {
         if (name != null && !name.trim().isEmpty()) {
@@ -54,12 +59,16 @@ public class Person implements Displayable {
         }
     }
 
-    @Override
-    public void displayInfo() {
+    // Shared method
+
+    public void displayBasicInfo() {
         System.out.print(
             "ID: " + id +
             " | Name: " + name +
             " | Gender: " + gender
         );
     }
+
+    // Abstract method
+    public abstract void displayInfo();
 }

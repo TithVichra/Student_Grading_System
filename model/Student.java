@@ -7,6 +7,7 @@ public class Student extends Person {
 
     private static int totalStudents = 0;
     private static int nextStudentId = 1;
+
     private String className;
 
     public Student(String name, Gender gender, String className) {
@@ -14,8 +15,6 @@ public class Student extends Person {
         setClassName(className);
         totalStudents++;
     }
-
-    // ================= GETTERS =================
 
     public static int getTotalStudents() {
         return totalStudents;
@@ -34,8 +33,6 @@ public class Student extends Person {
         return service.getGradesByStudent(getStudentId());
     }
 
-    // ================= SETTERS ==================
-
     public void setClassName(String className) {
         if (className != null && !className.trim().isEmpty()) {
             this.className = className;
@@ -44,20 +41,22 @@ public class Student extends Person {
         }
     }
 
-    // ================= DISPLAY (OVERRIDING)=================
-    // Overide: student-specific displayInfo shows id, name, gender, + classname
+    // OVERLOAD
 
-    //Overload: displayInfo with falg to show grades as well
     public void displayInfo(boolean showGrades) {
-        displayInfo(); // Call the original displayInfo for basic info
+        displayInfo();
+
         if (showGrades) {
+
             ArrayList<Grade> grades = getGrades();
+
             if (grades.isEmpty()) {
                 System.out.println("No grades recorded.");
             } else {
-                for (Grade g: grades) {
+
+                for (Grade g : grades) {
                     System.out.print(" -> ");
-                    g.displayInfo(); // Call Grade's displayInfo to show grade details
+                    g.displayInfo();
                 }
             }
         }
@@ -65,7 +64,7 @@ public class Student extends Person {
 
     @Override
     public void displayInfo() {
-        super.displayInfo();
+        displayBasicInfo();
         System.out.println(
             " | Class: " + className
         );
