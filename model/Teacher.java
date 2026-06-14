@@ -43,16 +43,7 @@ public class Teacher extends Person {
  
     // OVERRIDE: Teacher-specific displayInfo shows id, name, gender + email + department
     
-    @Override
-    public void displayInfo() {
-        System.out.println(
-                "Teacher ID: " + id +
-                " | Name: " + name +
-                " | Gender: " + gender +
-                " | Email: " + email +
-                " | Department: " + department
-        );
-    }   
+  
     // OVERLOAD: displayInfo with flag to show only contact info (email)
     public void displayInfo(boolean showContact) {
         if (showContact) {
@@ -65,8 +56,11 @@ public class Teacher extends Person {
         }
     }
     @Override
-    public String toString() {
-        return "Teacher [id=" + id + ", name=" + name + ", gender=" + gender +
-               ", email=" + email + ", department=" + department + "]";
+    public void displayInfo() {
+        super.displayInfo();
+        System.out.println(
+            " | Email: " + email +
+            " | Department: " + department
+        );
     }
 }

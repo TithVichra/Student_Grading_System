@@ -3,9 +3,11 @@ package main;
 import java.util.ArrayList;
 import model.*;
 import util.Averagable;
+import util.Displayable;
 import util.GradeManager;
 import util.GradeService;
 import util.Searchable;
+import model.Person;
 
 public class Main {
 
@@ -177,7 +179,40 @@ public class Main {
 
         System.out.println("\nExam Count After Overloads: "
                 + math.getExamCount());
+        // =========================
+        // PERSON POLYMORPHISM
+        // =========================
 
+        System.out.println("\n=== PERSON POLYMORPHISM ===");
+
+        ArrayList<Person> people = new ArrayList<>();
+
+        people.add(s1);
+        people.add(s2);
+        people.add(mathTeacher);
+        people.add(javaTeacher);
+
+        for (Person person : people) {
+            person.displayInfo();
+        }
+
+        // =========================
+        // DISPLAYABLE POLYMORPHISM
+        // =========================
+
+        System.out.println("\n=== DISPLAYABLE POLYMORPHISM ===");
+
+        ArrayList<Displayable> displayItems = new ArrayList<>();
+
+        displayItems.add(s1);
+        displayItems.add(mathTeacher);
+        displayItems.add(math);
+        displayItems.add(quiz);
+        displayItems.add(gradeService);
+
+        for (Displayable item : displayItems) {
+            item.displayInfo();
+        }
         // =========================
         // TOTAL STUDENTS
         // =========================

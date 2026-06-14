@@ -56,8 +56,10 @@ public class Person implements Displayable {
 
     @Override
     public void displayInfo() {
-        System.out.println("ID: " + id);
-        System.out.println("Name: " + name);
-        System.out.println("Gender: " + gender);
+        System.out.print(
+            "ID: " + id +
+            " | Name: " + name +
+            " | Gender: " + gender
+        );
     }
 }
