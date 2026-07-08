@@ -5,18 +5,18 @@ import util.GradeService;
 
 public class Student extends Person {
 
-    private static int totalStudents = 0;
+    private static int totalStudents = 0; //static? shared by all
     private static int nextStudentId = 1;
 
     private String className;
 
-    public Student(String name, Gender gender, String className) {
-        super(nextStudentId++, name, gender);
-        setClassName(className);
+    public Student(String name, Gender gender, String className) { // constructor   //instance? name, each student has a different name
+        super(nextStudentId++, name, gender);       //initialization
+        setClassName(className);                    // null
         totalStudents++;
-    }
+    }                                         
 
-    public static int getTotalStudents() {
+    public static int getTotalStudents() {  //counting
         return totalStudents;
     }
 
@@ -28,23 +28,23 @@ public class Student extends Person {
         return className;
     }
 
-    public ArrayList<Grade> getGrades() {
-        GradeService service = new GradeService();
+    public ArrayList<Grade> getGrades() {               //collab, find its grade          //Abstraction
+        GradeService service = new GradeService();      //divison, easier, exact role
         return service.getGradesByStudent(getStudentId());
     }
 
     public void setClassName(String className) {
         if (className != null && !className.trim().isEmpty()) {
-            this.className = className;
-        } else {
+            this.className = className; // here cuz parameter would shadow the field or attribute
+        } else {                        // bug? self-asigned, confusion
             this.className = "N/A";
         }
     }
 
     // OVERLOAD
 
-    public void displayInfo(boolean showGrades) {
-        displayInfo();
+    public void displayInfo(boolean showGrades) {  //instance based method, specific person's info
+        displayInfo();                             //no operate on object state, reducing encapsulation and object behavior.
 
         if (showGrades) {
 
@@ -64,7 +64,7 @@ public class Student extends Person {
 
     @Override
     public void displayInfo() {
-        displayBasicInfo();
+         super.displayInfo();
         System.out.println(
             " | Class: " + className
         );

@@ -69,6 +69,7 @@ public abstract class Person implements Displayable {
         );
     }
 
-    // Abstract method
-    public abstract void displayInfo();
+    public void displayInfo() {
+    displayBasicInfo();
+}
 }

@@ -1,5 +1,5 @@
-package util;
-
+package util;               //too much, storage,cal,display
+                            
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +32,7 @@ public class GradeManager implements Displayable {
     // =========================
     // ADD GRADE (WITH DUPLICATE CHECK)
     // =========================
-    public static boolean addGrade(Grade grade) {
+    public static boolean addGrade(Grade grade) { // Hiding Complexity
 
         if (grade == null) return false;
 

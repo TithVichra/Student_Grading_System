@@ -7,7 +7,6 @@ import util.Displayable;
 import util.GradeManager;
 import util.GradeService;
 import util.Searchable;
-import model.Person;
 
 public class Main {
 
@@ -17,11 +16,11 @@ public class Main {
         // STUDENTS
         // =========================
 
-        Student s1 = new Student("Vichra", Gender.FEMALE, "Year 2");
+        Student s1 = new Student("Vichra", Gender.FEMALE, "Year 2");  //no static
         Student s2 = new Student("Dara", Gender.MALE, "Year 2");
 
-        ArrayList<Student> students = new ArrayList<>();
-        students.add(s1);
+        ArrayList<Student> students = new ArrayList<>(); //collection // better than separate variables cuz cleaner, organized, automatic, convenvient
+        students.add(s1);                                //To add a new student, you just call students.add(s3)
         students.add(s2);
 
         // =========================

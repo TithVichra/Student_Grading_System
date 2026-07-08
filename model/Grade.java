@@ -1,15 +1,15 @@
-package model;
-
+package model;                   //uses student, subject, and exam, connection with score
+                                 //union to solve prb, dependence
 import util.Displayable;
 import util.Gradable;
 import util.GradeUtils;
 
-public class Grade implements Displayable, Gradable {
+public class Grade implements Displayable, Gradable { //implement, no complete, wont compile
 
-    private Student student;
+    private Student student;        //rela, ref better than ST, get access to more info,id,gender, class
     private Subject subject;
-    private Exam exam;
-
+    private Exam exam;              // encapsulation, need getscore()
+                                    // without? free access, no control, no validation, no encapsulation
     private double score;
     private String gradeLetter;
 
@@ -40,8 +40,8 @@ public class Grade implements Displayable, Gradable {
         return exam;
     }
 
-    public double getScore() {
-        return score;
+    public double getScore() { //need checking every files to find which touched or modified it
+        return score;          //main,read,no direct touch
     }
 
     public String getGradeLetter() {
@@ -74,10 +74,10 @@ public class Grade implements Displayable, Gradable {
         }
     }
 
-    public void setScore(double score) {
+    public void setScore(double score) {  //setter,change score, calculate
 
-        if (score >= 0 && score <= 100) {
-
+        if (score >= 0 && score <= 100) {  //why check? to validate
+                                           //validation inside setter, validate before setting
             this.score = score;
             this.gradeLetter = calculateGrade();
 
@@ -85,7 +85,7 @@ public class Grade implements Displayable, Gradable {
             System.out.println("Invalid score!");
         }
     }
-
+ //implementaton from gradable
     @Override
     public String calculateGrade() {
         return GradeUtils.calculateGrade(score);
